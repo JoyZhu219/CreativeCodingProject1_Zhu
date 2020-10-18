@@ -3,12 +3,14 @@
 
 let c1;
 let c2;
+let c3;
 let positions = [];
+let boat;
 
 
 function setup() {
   createCanvas(400, 400); 
-
+  boat = new ship(0,250);
   for (let u=0; u<200; u++) {
     let snowU = {
       x : random(0, width),
@@ -72,6 +74,8 @@ function draw() {
       snowU.x = width
     }    
   } 
+  boat.move();
+  boat.display();
 }
 
 
@@ -104,5 +108,37 @@ function backG() {
 }
 
 class ship(){
-  
+  constructor(x,y){
+    this.x = x;
+    this.y = y;
+  }
+  display(){
+    c3 = color(65);
+    fill(this.c3);
+    //ship body
+    beginShape();
+    vertex(this.x,this.y);
+    vertex(this.x+50,this.y+50);
+    vertex(this.x+100,this.y+50);
+    vertex(this.x+200,this.y);
+    endShape();
+    //fisherman head
+    circle(this.x+130,this.y-50,10);
+    //fisherman body
+    beginShape();
+    vertex(this.x+120,this.y-30);
+    vertex(this.x+100,this.y);
+    vertex(this.x+170,this.y);
+    vertex(this.x+15,this.y-30);
+    endShape();
+    //fishing rod
+    strokeWeight(3);
+    line(this.x+140,this.y-20,this.x+220,this.y-70);
+    line(this.x+220,this.y-70,this.x+230,this.y+40);
+  }
+  move(){
+    if (this.x<=width){
+      this.x += 5;
+    }
+  }
 }
