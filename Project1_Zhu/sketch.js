@@ -16,7 +16,9 @@ function setup() {
   z = 0;
   background(0);
   boat = new Ship(0,250);
-  for (let u=0; u<200; u++) {
+  /* I set it 200 times because I want to have a large amount of snow on the screen.
+  This time, I checked codes before I used class and after I used class */
+  for (let u=0; u<200; u++) {  
       let snowU = {
        x : random(0, width),
        y : random(-400, 0)
@@ -88,6 +90,9 @@ function draw() {
     boat.display();
     }
   }
+/*I want to create a triangle buttor so that when the mouse is clicked around a certain area, the screen can change.
+It is not working for now and I am useing print() to see how I can improve it. I am a bit confused about how I should
+use isGarden and isSea. */
 
    /* isGarden = mouseX<width/2+12 &&
     mouseX>width/2-12 &&
@@ -173,14 +178,16 @@ class Ship{
   move(){
     if (this.shipx<=width){
       this.shipx += 0.0005;
-      if (this.shipy>=250){
+      if ((this.shipy>=250)&&(this.shipy<=300)){
         this.shipy+=0.0005;
-      } else if(this.shipy>275){
+      } else if(this.shipy==300){ //I want to change the move() to make the ship seem tossing on the sea
         this.shipy-=0.0005;
       }
     }
   }
 }
+
+/*I will add other objects in this sketch and I want to solve problems for now */
 
 function flowers() {
   for (i = 0; i <= 400; i += 100) {
@@ -199,7 +206,7 @@ function flowers() {
 
 function bee() {
   time += .01; 
-  let beeX = map(cos(time), -1, 1, 25, width - 25); //smoothly moves ellipse on curve, cosine curve ranges from -1 to 1, transforms cosine curve to wider range in the sketch
+  let beeX = map(cos(time), -1, 1, 25, width - 25); 
   let chaos = map(beeX, 150, width-25, 0, 40); 
   chaos = max(0, chaos);
   let beeY = 150 + random(-chaos, +chaos);
@@ -244,9 +251,12 @@ function mouseClicked(){
   if (isSea){
     state = "garden";
     isSea = false;
+    //isGarden = true;
   } 
   if (isGarden){
     state = "sea";
     isGarden = false;
+    //isSea = true;
   }
 }
+/* I can only change the first sketch to the second one once and cannot change back */
