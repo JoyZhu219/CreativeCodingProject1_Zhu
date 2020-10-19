@@ -6,78 +6,117 @@ let c2;
 let c3;
 let positions = [];
 let boat;
-
+let z;
+let time = 0;
+let isSea,isGarden;
+let state = 'sea';
 
 function setup() {
   createCanvas(400, 400); 
-  boat = new ship(0,250);
+  z = 0;
+  background(0);
+  boat = new Ship(0,250);
   for (let u=0; u<200; u++) {
-    let snowU = {
-      x : random(0, width),
-      y : random(-400, 0)
-    }  
-    positions.push(snowU);
-  }
+      let snowU = {
+       x : random(0, width),
+       y : random(-400, 0)
+      }  
+      positions.push(snowU);
+    }
 }
-
-
 
 function draw() {
-  background(0);
+ // print(state);
+  if (state === 'sea'){
+    isSea = true;
+    isGarden = false;
+    fill(0,100);
+    triangle(width/2,20,width/2-12,40,width/2+12,40);
   
-  backG();
+    backG();
   
-  speedY = 0.8
-  speedX = 0.5
+    speedY = 0.8
+    speedX = 0.5
   
-  for (let i=0;i<200; i++) {  
-    let snowU = positions[i];  
+    for (let i=0;i<200; i++) {  
+      let snowU = positions[i];  
     
-    yTotal = snowU.y
+     yTotal = snowU.y
     
-    if (yTotal < 120) {
-      
-      fill(255);   
-      circle(snowU.x, yTotal, 5);
+     if (yTotal < 120) {
+        
+        fill(255);   
+        circle(snowU.x, yTotal, 5);
   
-      snowU.y += speedY - 0.3;
-      snowU.x -= speedX - 0.1; 
+        snowU.y += speedY - 0.3;
+        snowU.x -= speedX - 0.1; 
 
-    }
-    else if (yTotal >= 120 && yTotal < 250){
+     }
+     else if (yTotal >= 120 && yTotal < 250){
       
-      fill(255);   
-      circle(snowU.x, yTotal, 5);
+        fill(255);   
+        circle(snowU.x, yTotal, 5);
       
-      snowU.y += speedY;
+        snowU.y += speedY;
   
-      snowU.x -= speedX; 
-      speedX += 0.01
-      speedY += 0.01
-    }
-    else if (yTotal >= 250 && yTotal < height){
+        snowU.x -= speedX; 
+        speedX += 0.01
+        speedY += 0.01
+      }
+      else if (yTotal >= 250 && yTotal < height){
       
-      fill(255);   
-      circle(snowU.x, yTotal, 5);
-      
-      snowU.y += speedY;
+        fill(255);   
+        circle(snowU.x, yTotal, 5);
+        
+       snowU.y += speedY;
   
-      snowU.x -= speedX; 
-      speedX += 0.02
-      speedY += 0.02
-    }
-    else if (yTotal > height){
-      snowU.y = 0
-    }
+       snowU.x -= speedX; 
+        speedX += 0.02
+        speedY += 0.02
+      }
+      else if (yTotal > height){
+        snowU.y = 0
+      }
     
-    if (snowU.x < 0){
-      snowU.x = width
-    }    
-  } 
-  boat.move();
-  boat.display();
+     if (snowU.x < 0){
+       snowU.x = width
+     }    
+     
+  
+
+    boat.move();
+    boat.display();
+    }
+  }
+
+   /* isGarden = mouseX<width/2+12 &&
+    mouseX>width/2-12 &&
+    mouseY<40 &&
+    mouseY>20;*/
+    
+    if (state ==='garden'){
+    //isGarden = true;
+    //isSea = false;
+    
+    fill(0,100);
+    triangle(width/2,20,width/2-12,40,width/2+12,40);
+  
+    background(214,238,255);
+    flowers();
+    bee();
+
+    isSea = mouseX<width/2+12 &&
+    mouseX>width/2-12&&
+    mouseY<height-30&&
+    mouseY>height-50;
+    if(isSea){
+      fill(0,100);
+      triangle(width/2,height-30,width/2-12,height-50,width/2+12,height-50);
+    }
+  }
+  
+
 }
-
 
 function backG() {
   c1 = color(0);
@@ -107,38 +146,107 @@ function backG() {
   endShape();
 }
 
-class ship(){
-  constructor(x,y){
-    this.x = x;
-    this.y = y;
+class Ship{
+  constructor(shipx,shipy){
+    this.shipx = shipx;
+    this.shipy = shipy;
   }
   display(){
     c3 = color(65);
-    fill(this.c3);
+    fill(c3);
     //ship body
     beginShape();
-    vertex(this.x,this.y);
-    vertex(this.x+50,this.y+50);
-    vertex(this.x+100,this.y+50);
-    vertex(this.x+200,this.y);
+    vertex(this.shipx,this.shipy);
+    vertex(this.shipx+10,this.shipy+20);
+    vertex(this.shipx+115,this.shipy+20);
+    vertex(this.shipx+120,this.shipy);
+    vertex(this.shipx,this.shipy);
     endShape();
-    //fisherman head
-    circle(this.x+130,this.y-50,10);
-    //fisherman body
+    //sail
     beginShape();
-    vertex(this.x+120,this.y-30);
-    vertex(this.x+100,this.y);
-    vertex(this.x+170,this.y);
-    vertex(this.x+15,this.y-30);
+    vertex(this.shipx+66,this.shipy);
+    vertex(this.shipx+66,this.shipy-75);
+    vertex(this.shipx+22,this.shipy-7);
+    vertex(this.shipx+66,this.shipy-7);
     endShape();
-    //fishing rod
-    strokeWeight(3);
-    line(this.x+140,this.y-20,this.x+220,this.y-70);
-    line(this.x+220,this.y-70,this.x+230,this.y+40);
   }
   move(){
-    if (this.x<=width){
-      this.x += 5;
+    if (this.shipx<=width){
+      this.shipx += 0.0005;
+      if (this.shipy>=250){
+        this.shipy+=0.0005;
+      } else if(this.shipy>275){
+        this.shipy-=0.0005;
+      }
     }
+  }
+}
+
+function flowers() {
+  for (i = 0; i <= 400; i += 100) {
+    rectMode(CORNER);
+    fill(63, 130, 109);
+    noStroke();
+    rect(i-10, 300, 20, 100);
+    noStroke();
+    fill(214, 107, 160);
+    ellipse(i, 300, 100, 50);
+    ellipse(i, 300, 50, 100);
+    fill(235,197,92);
+    circle(i, 300, 50);
+  }
+}
+
+function bee() {
+  time += .01; 
+  let beeX = map(cos(time), -1, 1, 25, width - 25); //smoothly moves ellipse on curve, cosine curve ranges from -1 to 1, transforms cosine curve to wider range in the sketch
+  let chaos = map(beeX, 150, width-25, 0, 40); 
+  chaos = max(0, chaos);
+  let beeY = 150 + random(-chaos, +chaos);
+  //stinger
+  fill(0);
+  triangle(beeX + random(-chaos, +chaos)-50, beeY-5, beeX + random(-chaos, +chaos)-50, beeY+5,beeX + random(-chaos, +chaos)-60, beeY);
+  //bee body and stripes and eye
+  noStroke();
+  fill(235,197,92);
+  ellipse(beeX + random(-chaos, +chaos), beeY, 100, 60);
+  fill(0);
+  rectMode(CENTER);
+  rect(beeX + random(-chaos, +chaos), beeY, 15, 60);
+  rect(beeX + random(-chaos, +chaos) + 30, beeY, 10, 45);
+  rect(beeX + random(-chaos, +chaos) - 30, beeY, 10, 45);
+  circle(beeX + random(-chaos, +chaos) +45, beeY-5,5);
+  //wings
+  push();
+  translate(beeX + random(-chaos, +chaos), beeY);
+  rotate(radians(-45));
+  wingColor=color(255);
+  wingColor.setAlpha(200);
+  fill(wingColor);
+  ellipse(30,-20,30,50);
+  rotate(radians(45));
+  ellipse(30,-40,30,50);
+  pop();
+  //beeline
+  rect(beeX + random(-chaos, +chaos) - 100, beeY, 10,10);
+  rect(beeX + random(-chaos, +chaos) - 80, beeY, 10,10);
+  rect(beeX + random(-chaos, +chaos) - 120, beeY, 10,10);
+  rect(beeX + random(-chaos, +chaos) - 140, beeY, 10,10);
+  //antennas
+  stroke(0);
+  line(beeX + random(-chaos, +chaos) +45, beeY-15, beeX + random(-chaos, +chaos) +50, beeY-30);
+  circle(beeX + random(-chaos, +chaos) +50, beeY-30,5);
+  line(beeX + random(-chaos, +chaos) +45, beeY-15, beeX + random(-chaos, +chaos) +40, beeY-30);
+  circle(beeX + random(-chaos, +chaos) +40, beeY-30,5);
+}
+
+function mouseClicked(){
+  if (isSea){
+    state = "garden";
+    isSea = false;
+  } 
+  if (isGarden){
+    state = "sea";
+    isGarden = false;
   }
 }
