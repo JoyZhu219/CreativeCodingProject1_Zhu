@@ -21,7 +21,7 @@ function setup() {
   eve = color(0, 52, 97);
   z = 0;
   background(0);
-  boat = new Ship(0,350);
+  boat = new Ship();
   for (let i=0; i<200; i++) {
       let snowU = {
        x : random(0, width),
@@ -57,59 +57,11 @@ function draw() {
     triangle(width/2,20,width/2-12,40,width/2+12,40);
   
     backG();
+    snowSpeed();
   
-    speedY = 0.8
-    speedX = 0.5
-  
-    for (let i=0;i<200; i++) {  
-      let snowU = positions[i];  
-    
-     yTotal = snowU.y
-    
-     if (yTotal < 120) {
-        
-        fill(255);   
-        circle(snowU.x, yTotal, 5);
-  
-        snowU.y += speedY - 0.3;
-        snowU.x -= speedX - 0.1; 
-
-     }
-     else if (yTotal >= 120 && yTotal < 250){
-      
-        fill(255);   
-        circle(snowU.x, yTotal, 5);
-      
-        snowU.y += speedY;
-  
-        snowU.x -= speedX; 
-        speedX += 0.01
-        speedY += 0.01
-      }
-      else if (yTotal >= 250 && yTotal < height){
-      
-        fill(255);   
-        circle(snowU.x, yTotal, 5);
-        
-       snowU.y += speedY;
-  
-       snowU.x -= speedX; 
-        speedX += 0.02
-        speedY += 0.02
-      }
-      else if (yTotal > height){
-        snowU.y = 0
-      }
-    
-     if (snowU.x < 0){
-       snowU.x = width
-     }    
-     
-  
-
     boat.move();
     boat.display();
-    }
+    
     fill(255);
     noStroke();
     triangle(width/2, 20, width/2-12, 40, width/2+12, 40);
@@ -142,8 +94,52 @@ function draw() {
   
 }
 
+function snowSpeed(){
+  speedY = 0.8
+  speedX = 0.5
+  
+  for (let i=0;i<200; i++) {  
+    let snowU = positions[i];  
+    
+    yTotal = snowU.y
+    
+    if (yTotal < 120) {
+      fill(255);   
+      circle(snowU.x, yTotal, 5);
+  
+      snowU.y += speedY - 0.3;
+      snowU.x -= speedX - 0.1; 
+     } else if (yTotal >= 120 && yTotal < 250){
+      
+      fill(255);   
+      circle(snowU.x, yTotal, 5);
+      
+      snowU.y += speedY;
+  
+      snowU.x -= speedX; 
+      speedX += 0.01
+      speedY += 0.01
+      } else if (yTotal >= 250 && yTotal < height){
+      
+      fill(255);   
+      circle(snowU.x, yTotal, 5);
+        
+      snowU.y += speedY;
+      snowU.x -= speedX; 
+      speedX += 0.02
+      speedY += 0.02
+      } else if (yTotal > height){
+        snowU.y = 0
+      }
+    
+     if (snowU.x < 0){
+       snowU.x = width
+     }         
+}
+}
+  
 function backG() {
-  c1 = color(0);
+  c1 = color(238, 99, 86);
   c2 = color(190);
   
     //sky;
@@ -171,28 +167,29 @@ function backG() {
 }
 
 class Ship{
-  constructor(shipx,shipy){
-    this.shipx = shipx;
-    this.shipy = shipy;
+  constructor(){
+    this.position = createVector(0,350);
+    this.velocity=createVector();
+    this.acceleration=createVector();
   }
   display(){
-    c3 = color(65);
+    c3 = color(255, 211, 190);
     fill(c3);
     //ship body
     beginShape();
-    vertex(this.shipx,this.shipy);
-    vertex(this.shipx+10,this.shipy+20);
-    vertex(this.shipx+115,this.shipy+20);
-    vertex(this.shipx+120,this.shipy);
-    vertex(this.shipx,this.shipy);
+    vertex(this.position.x,this.position.y);
+    vertex(this.position.x+10,this.position.y+20);
+    vertex(this.position.x+115,this.position.y+20);
+    vertex(this.position.x+120,this.position.y);
+    vertex(this.position.x,this.position.y);
     endShape();
     //sail
     strokeWeight(2);
     beginShape();
-    vertex(this.shipx+61,this.shipy);
-    vertex(this.shipx+61,this.shipy-75);
-    vertex(this.shipx+22,this.shipy-7);
-    vertex(this.shipx+61,this.shipy-7);
+    vertex(this.position.x+61,this.position.y);
+    vertex(this.position.x+61,this.position.y-75);
+    vertex(this.position.x+22,this.position.y-7);
+    vertex(this.position.x+61,this.position.y-7);
     endShape();
   }
   move(){
@@ -293,7 +290,7 @@ function drawOutside(a){
   if(ball=='sun'){
      let ssize=50;
     for (let i=0;i<3;i++){
-      fill(255,234,79,ballsahde);
+      fill(255,234,79,bs);
       ellipse(ballx,height-bally,ssize);
       ssize+=13;
       bs-=100;
@@ -308,7 +305,7 @@ function drawOutside(a){
   drawWindow(sha);
 }
 
-function makeEnvi(event){
+/*function makeEnvi(event){
   if(event=='night'){
     makeTrees(60,60);
   }
@@ -323,7 +320,7 @@ function makeEnvi(event){
     fill(255);
     ellipse(200,200,5);
   }
-}
+}*/
 
 let olds;
 let sec;
@@ -370,8 +367,8 @@ function shootstar(){
   let d;
   let star;
   for(let i=0;i<stars.length;i++){
-    star=star[i];
-    if((star.y<heigh/2)&& (star.size>3)){
+    star=stars[i];
+    if((star.y<height/2)&& (star.size>3)){
       d=i;
     }
   }
