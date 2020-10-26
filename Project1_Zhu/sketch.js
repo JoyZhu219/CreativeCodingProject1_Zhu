@@ -159,7 +159,13 @@ function backG() {
   vertex(0,windowHeight-100);
   curveVertex(100,windowHeight-110);
   curveVertex(250,windowHeight-90);
+  curveVertex(350,windowHeight-80);
+  curveVertex(400,windowHeight-60);
+  curveVertex(windowWidth/2,windowHeight-90);
+  curveVertex(windowWidth/2+100,windowHeight-80);
+  curveVertex(windowWidth-200,windowHeight-70);
   curveVertex(windowWidth-150,windowHeight-110);
+  curveVertex(windowWidth-130,windowHeight-80);
   vertex(windowWidth,windowHeight);
   vertex(0,windowHeight);
   vertex(0,windowHeight);
