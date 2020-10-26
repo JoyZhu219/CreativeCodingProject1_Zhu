@@ -50,7 +50,7 @@ function setup() {
 
 function draw() {
  // print(state);
-  if (state == "sea"){
+  if (state === "sea"){
     /*isSea = true;
     isGarden = false;*/
     fill(0,100);
@@ -58,7 +58,7 @@ function draw() {
   
     backG();
     snowSpeed();
-  
+    
     boat.move();
     boat.display();
     
@@ -168,9 +168,8 @@ function backG() {
 
 class Ship{
   constructor(){
-    this.position = createVector(0,350);
-    this.velocity=createVector();
-    this.acceleration=createVector();
+    this.position = createVector(0,windowHeight-115);
+    this.velocity=createVector(0.5,0.1);
   }
   display(){
     c3 = color(255, 211, 190);
@@ -193,14 +192,14 @@ class Ship{
     endShape();
   }
   move(){
-    if (this.shipx<=width){
-      this.shipx += 0.0005;
-      if ((this.shipy>=windowHeight-100)&&(this.shipy<=windowHeight-50)){
-        this.shipy+=0.0005;
-      } else if(this.shipy==300){
-        this.shipy-=0.0005;
-      }
+    this.position.add(this.velocity);
+    
+    if ((this.position.x<=0)||(this.position.x>=width) ){
+      this.velocity.x = -this.velocity.x;
     }
+    if ((this.position.y>=windowHeight-105)||(this.position.y<=windowHeight-115)){
+        this.velocity.y = -this.velocity.y;
+    } 
   }
 }
 
