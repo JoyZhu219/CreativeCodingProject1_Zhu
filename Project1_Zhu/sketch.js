@@ -353,7 +353,7 @@ function makeTrees(s){
   }
 }
 
-class Clouds{
+class Clouds{  //credit to Jacob..? I used vectors instead
   constructor(){
     this.positionC = createVector((random(width)),(random(-3000,0)))
     this.velocityC=createVector(0.3,0);
@@ -362,13 +362,8 @@ class Clouds{
   display(){
     noStroke();
     fill(230);
-    ellipse(this.positionC.x,this.positionC.y,this.velocityC.x, this.velocityC.x*0.8);
-   ellipse (this.positionC.x + (this.velocityC.x * (2 * this.change)), this.positionC.y + (this.velocityC.x * this.change), this.velocityC.x, this.velocityC.x * 0.8);
-      ellipse (this.positionC.x - (this.velocityC.x * this.change), this.positionC.x + (this.velocityC.x * this.change), this.velocityC.x, this.velocityC.x * 0.8);
-      ellipse (this.positionC.x + (this.velocityC.x * (0.5 * this.change)), this.positionC.y - (this.velocityC.x * (0.8 * this.change)), this.velocityC.x, this.velocityC.x * 0.8);
-      ellipse (this.positionC.x - (this.velocityC.y * this.change), this.positionC.y - (this.velocityC.x * this.change), this.velocityC.x, this.velocityC.x * 0.8);
-      ellipse (this.positionC.x + (this.velocityC.x * this.change), this.positionC.y, this.velocityC.x, this.velocityC.x * 0.8);
-      ellipse (this.positionC.x - (this.velocityC.x * (2 * this.change)), this.positionC.y, this.velocityC.x, this.velocityC.x * 0.8);
+    ellipse(this.positionC.x,this.positionC.y,50,50);
+    ellipse (this.positionC.x + 30, this.positionC.y, 50, 40);
   }
   float(){
     this.positionC.add(this.velocityC);
@@ -387,13 +382,21 @@ class Clouds{
 }
 
 function makeStars(){
+  let startTime=millis()
   for (let i=0;i<stars.length;i++){
     noStroke();
     fill(255,ss);
     let star=stars[i];
     if(star.spark=="y"){
+      if (millis() - startTime >= 10){
+        fill(random(255),random(255),random(255))
+      }
       ellipse(star.x,star.y,star.size+random(0,1))
     }else{
+      if (millis() - startTime >= 10){
+        fill(random(255),random(255),random(255))
+      }
+      fill(random(255),random(255),random(255))
       ellipse(star.x,star.y,star.size)
     }
       olds=sec;
