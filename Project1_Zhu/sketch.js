@@ -353,9 +353,9 @@ function makeTrees(s){
   }
 }
 
-class Clouds{  //credit to Jacob..? I used vectors instead
+class Clouds{ //credit to Jacob..? I used vectors instead
   constructor(){
-    this.positionC = createVector((random(width)),(random(-3000,0)))
+    this.positionC = createVector((random(width)),(random(height)))
     this.velocityC=createVector(0.3,0);
     this.change=random(0,0.5);
   }
@@ -393,10 +393,9 @@ function makeStars(){
       }
       ellipse(star.x,star.y,star.size+random(0,1))
     }else{
-      if (millis() - startTime >= 10){
+      /*if (millis() - startTime >= 10){
         fill(random(255),random(255),random(255))
-      }
-      fill(random(255),random(255),random(255))
+      }*/
       ellipse(star.x,star.y,star.size)
     }
       olds=sec;
