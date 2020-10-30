@@ -382,7 +382,7 @@ class Clouds{ //credit to Jacob..? I used vectors instead
 }
 
 function makeStars(){
-  let startTime=millis()
+  //let startTime=millis()
   for (let i=0;i<stars.length;i++){
     noStroke();
     fill(255,ss);
