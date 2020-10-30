@@ -1,4 +1,4 @@
-//Joy Zhu
+///Joy Zhu
 //Project 1
 
 let c1;
@@ -23,14 +23,14 @@ function setup() {
   z = 0;
   background(0);
   boat = new Ship();
-  for (let i=0; i<200; i++) {
+  for (let i=0; i<200; i++) {  //make snows for sketch1
       let snowU = {
        x : random(0, width),
        y : random(-400, 0)
       }  
       positions.push(snowU);
     }
-  for(let i=0; i<150;i++) {
+  for(let i=0; i<150;i++) {   //create starts for night scene in sketch2
     let star = {
       x: random(30, width-30),
       y: random(35, height-35),
@@ -39,7 +39,7 @@ function setup() {
     }
     stars.push(star);
   }
-  for(let i=0; i<200; i++) {
+  for(let i=0; i<200; i++) {   //create trees for both night and day scene in sketch2
     let tree = {
       x: random(30, width-30),
       y: random(height - 45, height-27),
@@ -47,14 +47,14 @@ function setup() {
     }
     trees.push(tree);
   }
-  for(let i=0;i<=30;i++){
+  for(let i=0;i<=30;i++){   //create clouds for day scene in sketch2
     cloud[i]=new Clouds();
   }
 }
 
 function draw() {
  // print(state);
-  if (state === "sea"){
+  if (state === "sea"){   //sketch1
     /*isSea = true;
     isGarden = false;*/
     fill(0,100);
@@ -66,7 +66,7 @@ function draw() {
     boat.move();
     boat.display();
     
-    fill(255);
+    fill(255);                 //create "button" to change from sketch1 to sketch2
     noStroke();
     triangle(width/2, 20, width/2-12, 40, width/2+12, 40);
 
@@ -79,7 +79,7 @@ function draw() {
       fill(0,100);
       triangle(width/2,20,width/2-12,40,width/2+12,40);
     }
-} else {
+} else {   //sketch2
   drawWindow();
   drawOutside(hour());
   fill(255);
@@ -98,7 +98,7 @@ function draw() {
   
 }
 
-function snowSpeed(){
+function snowSpeed(){ //change the speed of snow falling
   speedY = 0.8
   speedX = 0.5
   
@@ -142,7 +142,7 @@ function snowSpeed(){
 }
 }
   
-function backG() {
+function backG() {        //create the background of sketch1
   c1 = color(238, 99, 86);
   c2 = color(190);
   
@@ -170,7 +170,7 @@ function backG() {
   endShape();
 }
 
-class Ship{
+class Ship{      //create ships and use vector to make it move
   constructor(){
     this.position = createVector(0,windowHeight-115);
     this.velocity=createVector(0.5,0.1);
@@ -214,8 +214,8 @@ let ts; //treeshade
 let bs, ballx, bally, ball;
 let mincha, minnow;
 
-function drawOutside(a){
-  if ((a>=0)&&(a<5)){
+function drawOutside(a){   //backrgound for sketch2
+  if ((a>=0)&&(a<5)){    //hour 0-5; 12:00 am - 5:00 am
     shadow=140;
     fill(eve);
     ss=255;
@@ -231,7 +231,7 @@ function drawOutside(a){
     ballx=lerp(400,200,mincha);
     bally=lerp(300,430,mincha);
     bs=lerp(255,10,mincha);
-  } else if ((a>=5)&&(a<10)){
+  } else if ((a>=5)&&(a<10)){  //5:00 am - 10:00 am
     cha=map(a,5,9,0,1);
     sha=lerp(140,0,cha);
     sc=lerpColor(eve,morn,cha);
@@ -249,7 +249,7 @@ function drawOutside(a){
     ballx=lerp(500,400,mincha);
     bally=lerp(0,300,mincha);
     bs=lerp(100,255,mincha);
-  } else if((a>=10)&&(a<16)){
+  } else if((a>=10)&&(a<16)){  //10:00 am - 4:00 pm
     sha=0;
     fill(morn);
     ss=0;
@@ -258,7 +258,7 @@ function drawOutside(a){
     ballx=400;
     bally=300;
     bs=255;
-  } else if((a>=16)&&(a<20)){
+  } else if((a>=16)&&(a<20)){  //4:00 pm - 8:00 pm
     cha=map(a,16,19,0,1);
     if(a>16){
       let min=(a-16)*60;
@@ -276,7 +276,7 @@ function drawOutside(a){
     ss=lerp(0,255,cha);
     ts=lerp(60,35,cha);
     ball='moon'
-  }else{
+  }else{   // 8:00 pm - 12:00 am (second day)
     sha=140;
     fill(eve);
     ballx=400;
@@ -290,7 +290,7 @@ function drawOutside(a){
   rect(30,30,width-60,height-60);
   push();
   colorMode(RGB);
-  if(ball=='sun'){
+  if(ball=='sun'){   //sun for day scene
      let ssize=50;
     for (let i=0;i<3;i++){
       fill(255,234,79,bs);
@@ -298,7 +298,7 @@ function drawOutside(a){
       ssize+=13;
       bs-=100;
     }
-    for (let i=0; i<24; i++){
+    for (let i=0; i<24; i++){   //clouds
       cloud[i].display();
       cloud[i].float();
       cloud[i].reset(); 
@@ -332,7 +332,7 @@ function drawOutside(a){
 
 let olds;
 let sec;
-function makeTrees(s){
+function makeTrees(s){   //trees in both scenes
   push();
   colorMode(HSB);
   fill(120,60,s-10);
@@ -353,7 +353,7 @@ function makeTrees(s){
   }
 }
 
-class Clouds{ //credit to Jacob..? I used vectors instead
+class Clouds{ //credit to Jacob. https://www.openprocessing.org/sketch/997319  I used vectors instead
   constructor(){
     this.positionC = createVector((random(width)),(random(height)))
     this.velocityC=createVector(0.3,0);
@@ -381,7 +381,10 @@ class Clouds{ //credit to Jacob..? I used vectors instead
   
 }
 
-function makeStars(){
+/*I tried to make changes to the colors, 
+but as stars were sparkling and like changing their sizes, 
+color changes seem to deviate from my concept*/
+function makeStars(){   
   //let startTime=millis()
   for (let i=0;i<stars.length;i++){
     noStroke();
@@ -406,7 +409,7 @@ function makeStars(){
   }
 }
 
-function shootstar(){
+function shootstar(){  //small shooting stars 
   let d;
   let star;
   for(let i=0;i<stars.length;i++){
@@ -433,7 +436,7 @@ function shootstar(){
   
 }
 
-function drawWindow(sha){
+function drawWindow(sha){  //frame for sketch2
   push();
   colorMode(RGB);
   noStroke();
