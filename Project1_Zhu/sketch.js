@@ -14,6 +14,7 @@ let stars = [];
 let trees = [];
 let bool = ['y', 'n']
 let morn, eve;
+let cloud = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight); 
@@ -45,6 +46,9 @@ function setup() {
       shade: (random(1, 5))
     }
     trees.push(tree);
+  }
+  for(let i=0;i<=30;i++){
+    cloud[i]=new Clouds();
   }
 }
 
@@ -159,13 +163,7 @@ function backG() {
   vertex(0,windowHeight-100);
   curveVertex(100,windowHeight-110);
   curveVertex(250,windowHeight-90);
-  curveVertex(350,windowHeight-80);
-  curveVertex(400,windowHeight-60);
-  curveVertex(windowWidth/2,windowHeight-90);
-  curveVertex(windowWidth/2+100,windowHeight-80);
-  curveVertex(windowWidth-200,windowHeight-70);
   curveVertex(windowWidth-150,windowHeight-110);
-  curveVertex(windowWidth-130,windowHeight-80);
   vertex(windowWidth,windowHeight);
   vertex(0,windowHeight);
   vertex(0,windowHeight);
@@ -300,6 +298,11 @@ function drawOutside(a){
       ssize+=13;
       bs-=100;
     }
+    for (let i=0; i<24; i++){
+      cloud[i].display();
+      cloud[i].float();
+      cloud[i].reset(); 
+    }
      } else{
        fill(255,bs);
        ellipse(ballx,height-bally,50);
@@ -348,6 +351,39 @@ function makeTrees(s){
     rect(-4,20,8,10);
     pop();
   }
+}
+
+class Clouds{
+  constructor(){
+    this.positionC = createVector((random(width)),(random(-3000,0)))
+    this.velocityC=createVector(0.3,0);
+    this.change=random(0,0.5);
+  }
+  display(){
+    noStroke();
+    fill(230);
+    ellipse(this.positionC.x,this.positionC.y,this.velocityC.x, this.velocityC.x*0.8);
+   ellipse (this.positionC.x + (this.velocityC.x * (2 * this.change)), this.positionC.y + (this.velocityC.x * this.change), this.velocityC.x, this.velocityC.x * 0.8);
+      ellipse (this.positionC.x - (this.velocityC.x * this.change), this.positionC.x + (this.velocityC.x * this.change), this.velocityC.x, this.velocityC.x * 0.8);
+      ellipse (this.positionC.x + (this.velocityC.x * (0.5 * this.change)), this.positionC.y - (this.velocityC.x * (0.8 * this.change)), this.velocityC.x, this.velocityC.x * 0.8);
+      ellipse (this.positionC.x - (this.velocityC.y * this.change), this.positionC.y - (this.velocityC.x * this.change), this.velocityC.x, this.velocityC.x * 0.8);
+      ellipse (this.positionC.x + (this.velocityC.x * this.change), this.positionC.y, this.velocityC.x, this.velocityC.x * 0.8);
+      ellipse (this.positionC.x - (this.velocityC.x * (2 * this.change)), this.positionC.y, this.velocityC.x, this.velocityC.x * 0.8);
+  }
+  float(){
+    this.positionC.add(this.velocityC);
+    if ((this.positionC.x<=0)||(this.positionC.x>=width) ){
+      this.velocityC.x = -this.velocityC.x;
+    }
+  }
+  reset(){
+    if(this.positionC.x>width+75){
+      this.positionC.x=random(-100,0);
+      this.positionC.y=random(50,350);
+      this.change=random(0.1,0.3);
+    }
+  }
+  
 }
 
 function makeStars(){
